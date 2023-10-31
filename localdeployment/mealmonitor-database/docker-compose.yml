@@ -1,0 +1,21 @@
+version: "2"
+
+services:
+
+  mealmonitor-database:
+    image: postgres:15.3
+    container_name: mealmonitor-database
+    restart: unless-stopped
+    ports:
+      - 63587:5432
+    environment:
+      - POSTGRES_DB=mealmonitor
+      - POSTGRES_USER=mealmonitor
+      - POSTGRES_PASSWORD=numiplacesamananc
+      - TZ=UTC
+      - PGTZ=UTC
+    volumes:
+      - mealmonitor-database:/var/lib/postgresql/data
+
+volumes:
+  mealmonitor-database:
