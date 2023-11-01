@@ -27,10 +27,8 @@ public class MealController {
 
     @GetMapping()
     public ResponseEntity<List<Meal>> getMealsAndDateToFrom(@RequestParam LocalDate day) {
-        //List<Meal> meals = mealRepository.getMealsByDateTimeIsBeforeAndDateTimeIsAfter(day.atTime(23, 59, 59).atZone(ZoneId.of("Europe/Bucharest")), day.atStartOfDay().atZone(ZoneId.of("Europe/Bucharest")));
-
         List<Meal> meals = (List<Meal>) mealRepository.findAll();
-        meals = meals.stream().filter(meal -> meal.getDateTime().toLocalDate().isEqual(LocalDate.of(2023, 10, 31))).toList();
+        meals = meals.stream().filter(meal -> meal.getDateTime().toLocalDate().isEqual(day)).toList();
         return new ResponseEntity<>(meals, HttpStatus.OK);
     }
 
