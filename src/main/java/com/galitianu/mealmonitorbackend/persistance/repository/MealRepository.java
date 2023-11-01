@@ -1,7 +1,7 @@
 package com.galitianu.mealmonitorbackend.persistance.repository;
 
 import com.galitianu.mealmonitorbackend.persistance.entity.Meal;
-import com.galitianu.mealmonitorbackend.persistance.entity.User;
+//import com.galitianu.mealmonitorbackend.persistance.entity.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +11,6 @@ import java.util.UUID;
 
 @Repository
 public interface MealRepository extends CrudRepository<Meal, UUID> {
-    List<Meal> getMealsByUserAndDateTimeIsBeforeAndDateTimeIsAfter(User user, ZonedDateTime before, ZonedDateTime after);
+    List<Meal> getMealsByDateTimeIsBeforeAndDateTimeIsAfter(ZonedDateTime before, ZonedDateTime after);
 
 }

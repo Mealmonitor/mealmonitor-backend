@@ -13,8 +13,8 @@ import java.util.List;
 @Table(name = "meal")
 public class Meal extends BaseEntity{
     private ZonedDateTime dateTime;
-    @ManyToOne
-    private User user;
+//    @ManyToOne
+//    private User user;
     @OneToMany(mappedBy = "meal", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Food> foodList;
 }
