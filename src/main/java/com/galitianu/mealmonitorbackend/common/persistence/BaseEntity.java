@@ -1,4 +1,4 @@
-package com.galitianu.mealmonitorbackend.persistance.entity;
+package com.galitianu.mealmonitorbackend.common.persistence;
 
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;

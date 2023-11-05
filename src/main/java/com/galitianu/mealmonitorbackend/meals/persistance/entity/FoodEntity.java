@@ -1,6 +1,7 @@
-package com.galitianu.mealmonitorbackend.persistance.entity;
+package com.galitianu.mealmonitorbackend.meals.persistance.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.galitianu.mealmonitorbackend.common.persistence.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -11,10 +12,10 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "food")
-public class Food extends BaseEntity{
+public class FoodEntity extends BaseEntity {
     @ManyToOne
     @JsonIgnore
-    private Meal meal;
+    private MealEntity meal;
     private String barCode;
     private String name;
     private String brand;
