@@ -2,7 +2,7 @@ FROM amazoncorretto:17-al2-jdk
 
 WORKDIR /microservice
 
-COPY mealmonitor-backend.jar app.jar
+COPY target/mealmonitor-backend.jar app.jar
 RUN jar xvf app.jar
 RUN rm app.jar
 
