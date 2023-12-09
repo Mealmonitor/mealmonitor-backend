@@ -1,5 +1,10 @@
 package com.galitianu.mealmonitorbackend.meals.api.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class NewFoodDto {
     private String barCode;
     private String name;
