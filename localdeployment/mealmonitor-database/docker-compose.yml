@@ -2,9 +2,9 @@ version: "2"
 
 services:
 
-  mealmonitor-database:
+  mealmonitor-database-local:
     image: postgres:15.3
-    container_name: mealmonitor-database
+    container_name: mealmonitor-database-local
     restart: unless-stopped
     ports:
       - 63587:5432

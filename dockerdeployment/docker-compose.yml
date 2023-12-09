@@ -6,14 +6,11 @@ services:
     image: postgres:15.3
     container_name: mealmonitor-database
     restart: unless-stopped
-    ports:
-      - 63587:5432
+    hostname: mealmonitordb
     environment:
       - POSTGRES_DB=mealmonitor
       - POSTGRES_USER=mealmonitor
       - POSTGRES_PASSWORD=numiplacesamananc
-      - TZ=UTC
-      - PGTZ=UTC
     volumes:
       - mealmonitor-database:/var/lib/postgresql/data
 
@@ -22,8 +19,24 @@ services:
     container_name: mealmonitor-backend
     restart: unless-stopped
     environment:
-      - POSTGRES_DB=mealmonitor
-      - POSTGRES_USER=mealmonitor
-      - POSTGRES_PASSWORD=numiplacesamananc
+      - SPRING_PROFILE=docker
+      - DB_HOST=mealmonitordb
+      - DB_PORT=5432
+      - DB_SCHEMA=mealmonitor
+      - DB_USERNAME=mealmonitor
+      - DB_PASSWORD=numiplacesamananc
+    labels:
+      - "traefik.http.services.mealmonitor-api.loadbalancer.server.port=8080"
+      - "traefik.enable=true"
+      - "traefik.http.routers.mealmonitor-api.rule=Host(`api.mealmonitor.galitianu.com`)"
+      - "traefik.http.routers.mealmonitor-api.entrypoints=websecure"
+      - "traefik.http.routers.mealmonitor-api.tls.certresolver=myresolver"
+    networks:
+      - traefik_default
+
+networks:
+  traefik_default:
+    external: true
+
 volumes:
   mealmonitor-database:
