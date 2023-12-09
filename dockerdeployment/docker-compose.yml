@@ -13,6 +13,9 @@ services:
       - POSTGRES_PASSWORD=numiplacesamananc
     volumes:
       - mealmonitor-database:/var/lib/postgresql/data
+    networks:
+      - traefik_default
+
 
   mealmonitor-backend:
     image: mealmonitor-backend
@@ -26,7 +29,7 @@ services:
       - DB_USERNAME=mealmonitor
       - DB_PASSWORD=numiplacesamananc
     labels:
-      - "traefik.http.services.mealmonitor-api.loadbalancer.server.port=8080"
+      - "traefik.http.services.mealmonitor-api.loadbalancer.server.port=8088"
       - "traefik.enable=true"
       - "traefik.http.routers.mealmonitor-api.rule=Host(`api.mealmonitor.galitianu.com`)"
       - "traefik.http.routers.mealmonitor-api.entrypoints=websecure"
