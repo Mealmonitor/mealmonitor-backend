@@ -1,6 +1,6 @@
 package com.galitianu.mealmonitorbackend.products.service;
 
-import com.galitianu.mealmonitorbackend.common.service.BaseService;
+import com.galitianu.mealmonitorbackend.common.service.BaseEntityService;
 import com.galitianu.mealmonitorbackend.products.mapper.ProductMapper;
 import com.galitianu.mealmonitorbackend.products.persistance.entity.ProductEntity;
 import com.galitianu.mealmonitorbackend.products.persistance.repository.ProductRepository;
@@ -16,10 +16,26 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ProductService extends BaseService {
+public class ProductService extends BaseEntityService<Product, ProductEntity> {
     private final OpenFoodFactsWrapper wrapper = new OpenFoodFactsWrapperImpl();
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
+
+    public Product createProduct(String barcode, String name, String brand, String recommendedQuantity, int caloriesPerCent,
+    float proteinsPerCent, float carbsPerCent, float fatsPerCent)
+    {
+        Product product = new Product();
+        product.setBarcode(barcode);
+        product.setName(name);
+        product.setBrand(brand);
+        product.setRecommendedQuantity(recommendedQuantity);
+        product.setCaloriesPerCent(caloriesPerCent);
+        product.setProteinsPerCent(proteinsPerCent);
+        product.setCarbsPerCent(carbsPerCent);
+        product.setFatsPerCent(fatsPerCent);
+
+        return  save(product);
+    }
 
     public Product getProductByBarcode(String barcode)
     {
@@ -39,17 +55,23 @@ public class ProductService extends BaseService {
             return product;
         }
         else
-            return productMapper.toModel(localProduct.get());
+            return productMapper.mapToModel(localProduct.get());
 
     }
 
-//    public List<Product> getProductsBySearch(String query)
-//    {
-//
-//    }
-//
-//    public void saveProductFromFood(Food food)
-//    {
-//
-//    }
+    public List<Product> getProductsBySearch(String query)
+    {
+        List<ProductEntity> foundProducts = productRepository.findAllByNameOrBrand(query, query);
+        return foundProducts.stream().map(productMapper::mapToModel).toList();
+    }
+
+    @Override
+    protected ProductRepository getRepository() {
+        return productRepository;
+    }
+
+    @Override
+    protected ProductMapper getMapper() {
+        return productMapper;
+    }
 }

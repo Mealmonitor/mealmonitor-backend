@@ -1,5 +1,6 @@
 package com.galitianu.mealmonitorbackend.meals.api.dto;
 
+import com.galitianu.mealmonitorbackend.common.api.BaseEntityDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class NewMealDto {
+public class MealDto extends BaseEntityDto {
     private ZonedDateTime dateTime;
-    private List<NewFoodDto> foodList;
+    private List<FoodDto> foodList;
 }

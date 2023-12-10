@@ -1,12 +1,11 @@
-package com.galitianu.mealmonitorbackend.products.service.model;
+package com.galitianu.mealmonitorbackend.products.api.dto;
 
-import com.galitianu.mealmonitorbackend.common.service.BaseEntityModel;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class Product extends BaseEntityModel {
+public class ProductDto {
     private String barcode;
     private String name;
     private String brand;

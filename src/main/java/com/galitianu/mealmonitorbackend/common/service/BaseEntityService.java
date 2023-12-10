@@ -1,30 +1,42 @@
 package com.galitianu.mealmonitorbackend.common.service;
 
+import com.galitianu.mealmonitorbackend.common.mapper.BaseModelEntityMapper;
 import com.galitianu.mealmonitorbackend.common.persistence.BaseEntity;
 import com.galitianu.mealmonitorbackend.common.persistence.BaseRepository;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.StreamSupport;
 
-@RequiredArgsConstructor
 @Getter
 @Setter
-public abstract class BaseEntityService<E extends BaseEntity> extends BaseService {
+public abstract class BaseEntityService<M extends BaseEntityModel, E extends BaseEntity> extends BaseService {
     protected abstract BaseRepository<E> getRepository();
-    public Optional<E> findById(UUID id) {
-        return getRepository().findById(id);
+
+    protected abstract BaseModelEntityMapper<M, E> getMapper();
+
+    public Optional<M> findById(UUID id) {
+        return getMapper().mapToModel(getRepository().findById(id));
     }
-    public List<E> findAll() {
-        return (List<E>) getRepository().findAll();
+
+    public List<M> findAll() {
+        Iterable<E> iterable = getRepository().findAll();
+        return StreamSupport.stream(iterable.spliterator(), false).map(getMapper()::mapToModel).toList();
     }
-    public E save(E e) {
-        return getRepository().save(e);
+
+    public M save(M m) {
+        E e = getMapper().mapToEntity(m);
+        e = getRepository().save(e);
+        return getMapper().mapToModel(e);
     }
-    public void delete(E e) {
+
+    public void delete(M m) {
+        E e = getMapper().mapToEntity(m);
         getRepository().delete(e);
     }
+
 }
+

@@ -14,8 +14,7 @@ import java.util.List;
 @Table(name = "meal")
 public class MealEntity extends BaseEntity {
     private ZonedDateTime dateTime;
-//    @ManyToOne
-//    private User user;
+
     @OneToMany(mappedBy = "meal", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FoodEntity> foodList;
 }
