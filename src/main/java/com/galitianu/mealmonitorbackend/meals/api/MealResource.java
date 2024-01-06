@@ -21,7 +21,6 @@ import java.util.UUID;
 @RequestMapping("/meals")
 public class MealResource extends BaseResource {
     private final MealService mealService;
-    private final MealMapper mealMapper;
 
     private final FoodMapper foodMapper;
 
