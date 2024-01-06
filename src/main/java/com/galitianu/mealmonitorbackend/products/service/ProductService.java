@@ -61,7 +61,7 @@ public class ProductService extends BaseEntityService<Product, ProductEntity> {
 
     public List<Product> getProductsBySearch(String query)
     {
-        List<ProductEntity> foundProducts = productRepository.findAllByNameOrBrand(query, query);
+        List<ProductEntity> foundProducts = productRepository.findAllByNameContainingIgnoreCaseOrBrandContainingIgnoreCase(query, query);
         return foundProducts.stream().map(productMapper::mapToModel).toList();
     }
 

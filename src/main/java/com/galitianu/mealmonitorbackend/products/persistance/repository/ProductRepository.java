@@ -10,5 +10,5 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends BaseRepository<ProductEntity> {
     Optional<ProductEntity> findByBarcode(String barcode);
-    List<ProductEntity> findAllByNameOrBrand(String name, String brand);
+    List<ProductEntity> findAllByNameContainingIgnoreCaseOrBrandContainingIgnoreCase(String name, String brand);
 }
