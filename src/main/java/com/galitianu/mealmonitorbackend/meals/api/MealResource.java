@@ -3,7 +3,6 @@ package com.galitianu.mealmonitorbackend.meals.api;
 import com.galitianu.mealmonitorbackend.common.api.BaseResource;
 import com.galitianu.mealmonitorbackend.meals.api.dto.MealDto;
 import com.galitianu.mealmonitorbackend.meals.mapper.FoodMapper;
-import com.galitianu.mealmonitorbackend.meals.mapper.MealMapper;
 import com.galitianu.mealmonitorbackend.meals.service.MealService;
 import com.galitianu.mealmonitorbackend.meals.service.model.Meal;
 import lombok.RequiredArgsConstructor;
