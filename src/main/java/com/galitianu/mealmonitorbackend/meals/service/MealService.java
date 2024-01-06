@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -23,20 +24,36 @@ public class MealService extends BaseEntityService<Meal, MealEntity> {
     private final MealRepository mealRepository;
     private final MealMapper mealMapper;
 
-    public List<Meal> getMealsByDay (ZonedDateTime day){
+    private final FoodService foodService;
+    public List<Meal> getMealsByDay (LocalDate day){
         List<MealEntity> meals = (List<MealEntity>) mealRepository.findAll(); // TODO de facut prin Query
-        meals = meals.stream().filter(meal -> meal.getDateTime().isEqual(day)).toList();
+        meals = meals.stream().filter(meal -> meal.getDateTime().getMonth().equals(day.getMonth()) && meal.getDateTime().getYear() == day.getYear() && meal.getDateTime().getDayOfMonth() == day.getDayOfMonth()).toList();
         return mealMapper.mapToModels(meals);
+    }
+
+    public List<Food> getFoodList(Meal meal){
+        return foodService.getFoodsByMeal(meal);
     }
 
     public Meal createMeal(ZonedDateTime dateTime, List<Food> foodList){
         Meal meal = new Meal();
         meal.setDateTime(dateTime);
-        meal.setFoodList(foodList);
         meal = save(meal);
+
+        Meal finalMeal = meal;
+        foodList.forEach(food -> {
+            food.setMeal(finalMeal);
+            foodService.save(food);
+        });
+
         return meal;
     }
 
+    @Override
+    public void delete(Meal meal){
+        getFoodList(meal).forEach(foodService::delete);
+        super.delete(meal);
+    }
 
     @Override
     protected BaseRepository<MealEntity> getRepository() {

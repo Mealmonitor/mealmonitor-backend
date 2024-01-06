@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Food extends BaseEntityModel {
+    private Meal meal;
     private String barCode;
     private String name;
     private String brand;

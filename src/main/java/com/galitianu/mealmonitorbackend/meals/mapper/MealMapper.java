@@ -8,5 +8,4 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface MealMapper extends BaseModelEntityMapper<Meal, MealEntity> {
-    MealDto mapToDto(Meal meal);
 }
