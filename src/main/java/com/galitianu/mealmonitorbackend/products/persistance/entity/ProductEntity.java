@@ -25,4 +25,6 @@ public class ProductEntity extends BaseEntity {
     private float carbsPerCent;
     @Column(name = "fats_per_cent")
     private float fatsPerCent;
+    @Column(name = "fibre_per_cent")
+    private float fibrePerCent;
 }

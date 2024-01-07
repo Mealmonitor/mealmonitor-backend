@@ -16,4 +16,5 @@ public class FoodDto extends BaseEntityDto {
     private Long proteins;
     private Long carbs;
     private Long fats;
+    private Long fibre;
 }

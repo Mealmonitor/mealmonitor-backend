@@ -29,7 +29,17 @@ public class ProductResource extends BaseResource {
                 productDto.getCarbsPerCent(), productDto.getFatsPerCent());
         return new ResponseEntity<>(productMapper.mapToDto(product), HttpStatus.OK);
     }
+    @PostMapping("/list")
+    public ResponseEntity<Void> createProductsFromList(@RequestBody List<ProductDto> productDtoList)
+    {
+        productDtoList.forEach(productDto -> {
+            productService.createProduct(productDto.getBarcode(), productDto.getName(), productDto.getBrand(),
+                    productDto.getRecommendedQuantity(), productDto.getCaloriesPerCent(), productDto.getProteinsPerCent(),
+                    productDto.getCarbsPerCent(), productDto.getFatsPerCent());
+       });
 
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
     @GetMapping("/{barCode}")
     public ResponseEntity<ProductDto> getProductByBarcode(@PathVariable String barCode) {
         return new ResponseEntity<>(productMapper.mapToDto(productService.getProductByBarcode(barCode)), HttpStatus.OK);

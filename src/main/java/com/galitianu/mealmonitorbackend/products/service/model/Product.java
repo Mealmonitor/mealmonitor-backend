@@ -15,4 +15,5 @@ public class Product extends BaseEntityModel {
     private float proteinsPerCent;
     private float carbsPerCent;
     private float fatsPerCent;
+    private float fibrePerCent;
 }

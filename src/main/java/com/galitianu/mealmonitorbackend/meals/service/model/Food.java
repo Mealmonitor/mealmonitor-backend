@@ -17,4 +17,5 @@ public class Food extends BaseEntityModel {
     private Long proteins;
     private Long carbs;
     private Long fats;
+    private Long fibre;
 }

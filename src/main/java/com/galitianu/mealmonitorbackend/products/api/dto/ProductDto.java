@@ -14,4 +14,6 @@ public class ProductDto {
     private float proteinsPerCent;
     private float carbsPerCent;
     private float fatsPerCent;
+    private float fibrePerCent;
+
 }
