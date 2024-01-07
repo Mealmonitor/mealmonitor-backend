@@ -2,6 +2,36 @@ version: "2"
 
 services:
 
+  mealmonitor-keycloak:
+    image: bitnami/keycloak:23.0.3
+    container_name: keycloak
+    restart: unless-stopped
+    environment:
+      - KEYCLOAK_CREATE_ADMIN_USER=true
+      - KEYCLOAK_ADMIN_USER=mealmonitor
+      - KEYCLOAK_ADMIN_PASSWORD=numiplacesamananc
+      - KEYCLOAK_MANAGEMENT_USER=mealmonitor
+      - KEYCLOAK_MANAGEMENT_PASSWORD=numiplacesamananc
+      - KEYCLOAK_HOSTNAME=localhost
+      - KEYCLOAK_HTTP_PORT=8080
+      - KEYCLOAK_ENABLE_HTTPS=false
+      - KEYCLOAK_BIND_ADDRESS=0.0.0.0
+      - KEYCLOAK_DATABASE_HOST=mealmonitor-database
+      - KEYCLOAK_DATABASE_PORT=5432
+      - KEYCLOAK_DATABASE_NAME=mealmonitor
+      - KEYCLOAK_DATABASE_USER=mealmonitor
+      - KEYCLOAK_DATABASE_PASSWORD=numiplacesamananc
+      - KEYCLOAK_DATABASE_SCHEMA=public
+    labels:
+      - "traefik.http.services.mealmonitor-api.loadbalancer.server.port=8080"
+      - "traefik.enable=true"
+      - "traefik.http.routers.mealmonitor-api.rule=Host(`keycloak.mealmonitor.galitianu.com`)"
+      - "traefik.http.routers.mealmonitor-api.entrypoints=websecure"
+      - "traefik.http.routers.mealmonitor-api.tls.certresolver=myresolver"
+    networks:
+      - traefik_default
+
+
   mealmonitor-database:
     image: postgres:15.3
     container_name: mealmonitor-database
