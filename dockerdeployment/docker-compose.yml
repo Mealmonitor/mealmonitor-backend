@@ -19,7 +19,6 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.mealmonitor-keycloak.rule=Host(`keycloak.mealmonitor.galitianu.com`)"
       - "traefik.http.services.mealmonitor-keycloak.loadbalancer.server.port=8080"
-      # Redirect '/' to '/admin'
       - "traefik.http.middlewares.custom-redirect.redirectregex.regex=^https:\\/\\/([^\\/]+)\\/?$$"
       - "traefik.http.middlewares.custom-redirect.redirectregex.replacement=https://$$1/admin"
       - "traefik.http.routers.mealmonitor-keycloak.middlewares=custom-redirect"
