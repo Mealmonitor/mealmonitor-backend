@@ -1,6 +1,32 @@
 version: "2"
 
 services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    command: start
+    environment:
+      KC_HOSTNAME: 'keycloak.mealmonitor.galitianu.com'
+      KC_PROXY: 'edge'
+      KEYCLOAK_ADMIN: 'admin'
+      KEYCLOAK_ADMIN_PASSWORD: 'numiplacesamananc'
+      KEYCLOAK_DATABASE_HOST: 'mealmonitor-database'
+      KEYCLOAK_DATABASE_PORT: '5432'
+      KEYCLOAK_DATABASE_NAME: 'mealmonitor'
+      KEYCLOAK_DATABASE_USER: 'mealmonitor'
+      KEYCLOAK_DATABASE_PASSWORD: 'numiplacesamananc'
+      KEYCLOAK_DATABASE_SCHEMA: 'public'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mealmonitor-keycloak.rule=Host(`keycloak.mealmonitor.galitianu.com`)"
+      - "traefik.http.services.mealmonitor-keycloak.loadbalancer.server.port=8080"
+      - "traefik.http.middlewares.custom-redirect.redirectregex.regex=^https:\\/\\/([^\\/]+)\\/?$$"
+      - "traefik.http.middlewares.custom-redirect.redirectregex.replacement=https://$$1/admin"
+      - "traefik.http.routers.mealmonitor-keycloak.middlewares=custom-redirect"
+      - "traefik.http.routers.mealmonitor-keycloak.entrypoints=websecure"
+      - "traefik.http.routers.mealmonitor-keycloak.tls.certresolver=myresolver"
+    networks:
+      - traefik_default
+    restart: unless-stopped
 
   mealmonitor-database:
     image: postgres:15.3
@@ -40,6 +66,10 @@ services:
 networks:
   traefik_default:
     external: true
+  internal:
+    ipam:
+      config:
+        - subnet: 172.16.49.0/24
 
 volumes:
   mealmonitor-database:
