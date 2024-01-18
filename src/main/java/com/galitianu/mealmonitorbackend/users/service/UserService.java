@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+
 @Service
 @RequiredArgsConstructor
 public class UserService extends BaseEntityService<User, UserEntity> {
@@ -17,6 +18,7 @@ public class UserService extends BaseEntityService<User, UserEntity> {
     private final UserMapper userMapper;
 
     public void signUp(String firstName, String lastName, String email, String firebaseId){
+
         User user = new User();
         user.setFirstName(firstName);
         user.setLastName(lastName);
@@ -48,6 +50,7 @@ public class UserService extends BaseEntityService<User, UserEntity> {
     }
 
     public Boolean existsEmail(String email){
+
         return userRepository.getUserEntityByEmail(email).isPresent();
     }
 
