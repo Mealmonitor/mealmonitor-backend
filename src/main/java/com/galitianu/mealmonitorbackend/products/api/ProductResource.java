@@ -8,6 +8,7 @@ import com.galitianu.mealmonitorbackend.products.service.model.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class ProductResource extends BaseResource {
     private final ProductMapper productMapper;
 
     @PostMapping()
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto)
     {
         Product product = productService.createProduct(productDto.getBarcode(), productDto.getName(), productDto.getBrand(),
@@ -30,6 +32,7 @@ public class ProductResource extends BaseResource {
         return new ResponseEntity<>(productMapper.mapToDto(product), HttpStatus.OK);
     }
     @PostMapping("/list")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Void> createProductsFromList(@RequestBody List<ProductDto> productDtoList)
     {
         productDtoList.forEach(productDto -> {
@@ -41,18 +44,21 @@ public class ProductResource extends BaseResource {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/{barCode}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ProductDto> getProductByBarcode(@PathVariable String barCode) {
         return new ResponseEntity<>(productMapper.mapToDto(productService.getProductByBarcode(barCode)), HttpStatus.OK);
     }
 
-    @GetMapping("/search/{query}") // TODO debounce?
+    @GetMapping("/search/{query}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<ProductDto>> getProductsBySearch(@PathVariable String query) {
         List<Product> products = productService.getProductsBySearch(query);
         return new ResponseEntity<>(products.stream().map(productMapper::mapToDto).toList(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{productId}")
-    public ResponseEntity<String> deleteMeal(@PathVariable UUID productId) {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<String> deleteProduct(@PathVariable UUID productId) {
         Optional<Product> product = productService.findById(productId);
         if (product.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

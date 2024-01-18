@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends BaseRepository<UserEntity> {
     Optional<UserEntity> getUserEntityByEmail(String email);
+    Optional<UserEntity> getUserEntityByFirebaseId(String firebaseId);
 }

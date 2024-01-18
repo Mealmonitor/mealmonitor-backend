@@ -1,16 +1,12 @@
-package com.galitianu.mealmonitorbackend.users.persistence.entity;
+package com.galitianu.mealmonitorbackend.users.api.dto;
 
-import com.galitianu.mealmonitorbackend.common.persistence.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.galitianu.mealmonitorbackend.common.api.BaseEntityDto;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
-@Table(name = "mealmonitor_user")
 @Getter
 @Setter
-public class UserEntity extends BaseEntity {
+public class UserDto extends BaseEntityDto {
     private String firebaseId;
     private String firstName;
     private String lastName;
