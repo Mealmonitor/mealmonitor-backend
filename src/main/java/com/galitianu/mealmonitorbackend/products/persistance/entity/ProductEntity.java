@@ -18,13 +18,13 @@ public class ProductEntity extends BaseEntity {
     @Column(name = "recommended_quantity")
     private String recommendedQuantity;
     @Column(name = "calories_per_cent")
-    private int caloriesPerCent;
+    private Integer caloriesPerCent;
     @Column(name = "proteins_per_cent")
-    private float proteinsPerCent;
+    private Float proteinsPerCent;
     @Column(name = "carbs_per_cent")
-    private float carbsPerCent;
+    private Float carbsPerCent;
     @Column(name = "fats_per_cent")
-    private float fatsPerCent;
+    private Float fatsPerCent;
     @Column(name = "fibre_per_cent")
-    private float fibrePerCent;
+    private Float fibrePerCent;
 }

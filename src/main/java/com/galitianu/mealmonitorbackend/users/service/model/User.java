@@ -7,11 +7,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class User extends BaseEntityModel {
+    private String firebaseId;
     private String firstName;
     private String lastName;
     private String email;
-    private String password;
-    private Boolean gender;
     private Double weight;
-    private Double targetCalories, targetProteins, targetFats, targetFibres;
+    private Double targetCalories, targetProteins, targetFats, targetCarbs, targetFibres;
 }
