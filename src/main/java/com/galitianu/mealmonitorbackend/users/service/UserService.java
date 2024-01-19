@@ -3,6 +3,8 @@ package com.galitianu.mealmonitorbackend.users.service;
 import com.galitianu.mealmonitorbackend.common.service.BaseEntityService;
 import com.galitianu.mealmonitorbackend.users.mapper.UserMapper;
 import com.galitianu.mealmonitorbackend.users.persistence.entity.UserEntity;
+import com.galitianu.mealmonitorbackend.users.persistence.entity.UserMetabolism;
+import com.galitianu.mealmonitorbackend.users.persistence.entity.UserSelectedGoal;
 import com.galitianu.mealmonitorbackend.users.persistence.repository.UserRepository;
 import com.galitianu.mealmonitorbackend.users.service.model.User;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +19,7 @@ public class UserService extends BaseEntityService<User, UserEntity> {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public void signUp(String firstName, String lastName, String email, String firebaseId){
+    public void signUp(String firstName, String lastName, String email, String firebaseId) {
 
         User user = new User();
         user.setFirstName(firstName);
@@ -28,28 +30,43 @@ public class UserService extends BaseEntityService<User, UserEntity> {
         save(user);
     }
 
-    public User updateGoal(User user, Double weight, Double targetCalories, Double targetProteins, Double targetFats, Double targetCarbs, Double targetFibres){
-        if(weight != null)
+    public User updateGoal(User user, Double weight, Double targetCalories, Double targetProteins, Double targetFats, Double targetCarbs, Double targetFibres, UserSelectedGoal selectedGoal, UserMetabolism metabolism) {
+        if (weight != null)
             user.setWeight(weight);
-        if(targetCalories != null)
+        if (targetCalories != null)
             user.setTargetCalories(targetCalories);
-        if(targetProteins != null)
+        if (targetProteins != null)
             user.setTargetProteins(targetProteins);
-        if(targetFats != null)
+        if (targetFats != null)
             user.setTargetFats(targetFats);
-        if(targetCarbs != null)
+        if (targetCarbs != null)
             user.setTargetCarbs(targetCarbs);
-        if(targetFibres != null)
+        if (targetFibres != null)
             user.setTargetFibres(targetFibres);
+        if (metabolism != null)
+            user.setMetabolism(metabolism);
+        if (selectedGoal != null)
+            user.setSelectedGoal(selectedGoal);
+        return save(user);
+    }
+
+    public User deleteGoal(User user) {
+        user.setTargetCalories(null);
+        user.setTargetProteins(null);
+        user.setTargetFats(null);
+        user.setTargetCarbs(null);
+        user.setTargetFibres(null);
+        user.setSelectedGoal(null);
+        user.setMetabolism(null);
 
         return save(user);
     }
 
-    public Optional<User> getUserByFirebaseId(String firebaseId){
+    public Optional<User> getUserByFirebaseId(String firebaseId) {
         return userMapper.mapToModel(userRepository.getUserEntityByFirebaseId(firebaseId));
     }
 
-    public Boolean existsEmail(String email){
+    public Boolean existsEmail(String email) {
 
         return userRepository.getUserEntityByEmail(email).isPresent();
     }

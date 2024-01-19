@@ -50,7 +50,7 @@ public class UserResource extends BaseResource {
         if(optionalUser.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(userMapper.mapToDto(userService.updateGoal(optionalUser.get(), goalDto.getWeight(), goalDto.getTargetCalories(), goalDto.getTargetProteins(), goalDto.getTargetFats(), goalDto.getTargetCarbs(), goalDto.getTargetFibres())), HttpStatus.OK);
+        return new ResponseEntity<>(userMapper.mapToDto(userService.updateGoal(optionalUser.get(), goalDto.getWeight(), goalDto.getTargetCalories(), goalDto.getTargetProteins(), goalDto.getTargetFats(), goalDto.getTargetCarbs(), goalDto.getTargetFibres(), goalDto.getSelectedGoal(), goalDto.getMetabolism())), HttpStatus.OK);
     }
 
     @GetMapping("/{userId}/goal")
@@ -61,5 +61,16 @@ public class UserResource extends BaseResource {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(userMapper.mapToGoal(optionalUser.get()), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{userId}/goal")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Void> deleteGoal(@PathVariable String userId){
+        Optional<User> optionalUser = userService.getUserByFirebaseId(userId);
+        if(optionalUser.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        userService.deleteGoal(optionalUser.get());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
