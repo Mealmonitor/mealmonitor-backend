@@ -24,6 +24,19 @@ public class FoodService extends BaseEntityService<Food, FoodEntity> {
     }
 
     @Override
+    public Food save(Food food) {
+        if(food.getUnitOfMeasurement().equals("L")) {
+            food.setQuantity(food.getQuantity() * 1000);
+            food.setFats(food.getFats() * 1000);
+            food.setCalories(food.getCalories() * 1000);
+            food.setCarbs(food.getCarbs() * 1000);
+            food.setFibre(food.getFibre() * 1000);
+            food.setUnitOfMeasurement("g");
+        }
+       return super.save(food);
+    }
+
+    @Override
     protected FoodRepository getRepository() {
         return foodRepository;
     }
