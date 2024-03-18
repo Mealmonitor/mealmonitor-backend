@@ -46,6 +46,7 @@ public class MealResource extends BaseResource {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         List<Meal> meals = mealService.getMealsByDay(optionalUser.get(), day);
+        meals.forEach(meal -> {meal.setUser(optionalUser.get());});
         return new ResponseEntity<>(meals.stream().map(this::createDto).toList(), HttpStatus.OK);
     }
 
@@ -57,6 +58,7 @@ public class MealResource extends BaseResource {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Meal meal = mealService.createMeal(optionalUser.get(), mealDto.getDateTime(), mealDto.getFoodList().stream().map(foodMapper::mapToModel).toList());
+        meal.setUser(optionalUser.get());
         return new ResponseEntity<>(createDto(meal), HttpStatus.OK);
     }
 
